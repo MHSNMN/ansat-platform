@@ -1,0 +1,60 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function active() { return signedIn() && !(request.auth.token.account_status in ['disabled', 'suspended', 'pending', 'review']) && !(request.auth.token.role in ['PENDING', 'SUSPENDED']); }
+    function admin() { return active() && (request.auth.token.is_super_admin == true || request.auth.token.role == 'SUPER_ADMIN' || request.auth.token.role == 'ADMIN'); }
+    function studioRole() { return active() && request.auth.token.role in ['SUPER_ADMIN', 'ADMIN', 'NARRATOR', 'AUDIO_ENGINEER', 'QA_REVIEWER']; }
+    function ownedUpload() { return studioRole() && request.resource.metadata.ownerUid == request.auth.uid; }
+    function validAudioUpload() {
+      return ownedUpload() && request.resource.size > 0
+        && request.resource.size <= 500 * 1024 * 1024
+        && request.resource.contentType.matches('audio/.*');
+    }
+    function validAudioOrPdfUpload(variant) {
+      return ownedUpload() && request.resource.size > 0
+        && request.resource.size <= 500 * 1024 * 1024
+        && ((variant in ['raw', 'mastered', 'published'] && request.resource.contentType.matches('audio/.*'))
+          || (variant == 'pdf' && request.resource.contentType == 'application/pdf'));
+    }
+    
+    // User profile pictures & avatars
+    match /avatars/{userId}/{fileName} {
+      allow read: if signedIn();
+      allow write: if active() && (request.auth.uid == userId || admin());
+    }
+
+    // Current upload path. Ownership cannot be changed after creation.
+    match /audio/{bookId}/{recordingId}/{variant}/{fileName} {
+      allow read: if studioRole();
+      allow create: if validAudioOrPdfUpload(variant);
+      allow update: if validAudioOrPdfUpload(variant) && resource.metadata.ownerUid == request.auth.uid;
+      allow delete: if active() && (resource.metadata.ownerUid == request.auth.uid || admin());
+    }
+
+    // Legacy audio path retained for existing objects.
+    match /recordings/{recordingId}/{fileName} {
+      allow read: if studioRole();
+      allow create: if validAudioUpload();
+      allow update: if validAudioUpload() && resource.metadata.ownerUid == request.auth.uid;
+      allow delete: if active() && (resource.metadata.ownerUid == request.auth.uid || admin());
+    }
+
+    // Book covers and media assets
+    match /covers/{bookId}/{fileName} {
+      allow read: if true;
+      allow write: if admin();
+    }
+
+    // Certificates
+    match /certificates/{certId}/{fileName} {
+      allow read: if signedIn();
+      allow write: if admin();
+    }
+
+    // Unknown paths are never writable from a browser. Admin SDK bypasses rules.
+    match /{allPaths=**} {
+      allow read: if admin();
+    }
+  }
+}

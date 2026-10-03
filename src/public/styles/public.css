@@ -1,0 +1,105 @@
+/* src/public/styles/public.css */
+/* الواجهة العامة - مفتوحة للجميع */
+@import "../../shared/styles/shared.css";
+:root {
+  --pub-primary: #58a6ff;
+  --pub-bg: #0d1117;
+  --pub-surface: #161b22;
+  --pub-hero-gradient: linear-gradient(
+    135deg,
+    #0d1117 0%,
+    #161b22 50%,
+    #0a1628 100%
+  );
+}
+.public-portal {
+  background: var(--pub-bg);
+  min-height: 100vh;
+}
+.hero-section {
+  background: var(--pub-hero-gradient);
+  padding: 80px 24px;
+  text-align: center;
+}
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--c-text);
+}
+.hero-subtitle {
+  color: var(--c-text-muted);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 16px auto 0;
+}
+
+.public-app-container {
+  background: #080b13;
+}
+
+.public-app-container h1,
+.public-app-container h2,
+.public-app-container h3 {
+  letter-spacing: -0.025em;
+}
+
+.initiative-note {
+  border-block: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.035),
+    rgba(255, 255, 255, 0.01)
+  );
+}
+
+.initiative-note::before {
+  content: "“";
+  position: absolute;
+  inset: 12px auto auto 20px;
+  color: rgba(251, 191, 36, 0.15);
+  font:
+    700 7rem/1 Georgia,
+    serif;
+}
+
+.contribution-path {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-items: start;
+  gap: 12px;
+}
+
+.audio-library-row,
+.activity-entry,
+.session-recording {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.audio-library-row:hover,
+.session-recording:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.activity-entry summary::marker {
+  color: #fbbf24;
+}
+
+.public-app-container audio {
+  height: 38px;
+  color-scheme: dark;
+}
+
+@media (max-width: 640px) {
+  .public-app-container h1 {
+    font-size: clamp(2.5rem, 13vw, 4rem);
+  }
+  .public-app-container h2 {
+    font-size: 2rem;
+    line-height: 1.35;
+  }
+  .initiative-note {
+    padding-inline: 1.25rem;
+  }
+}

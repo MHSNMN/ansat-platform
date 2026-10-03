@@ -1,0 +1,407 @@
+/* src/recording/styles/recording.css */
+/* هوية الاستوديو الأصلية مطوّرة: نيلي أساسي، أصفر، أبيض وأزرق */
+@import "../../shared/styles/shared.css";
+.recording-platform {
+  --rec-primary: #30266f;
+  --rec-primary-glow: rgba(68, 55, 166, 0.18);
+  --rec-secondary: #f0b91d;
+  --rec-wave: #4437a6;
+  --rec-bg: #f8f5ec;
+  --rec-surface: #ffffff;
+  --rec-surface-2: #f2eee3;
+  --rec-border: #ddd6c5;
+  --rec-text: #202126;
+  --rec-text-muted: #716c66;
+}
+.recording-platform {
+  background: #090d16;
+  min-height: 100vh;
+  color: var(--rec-text);
+}
+.recording-platform .card {
+  background: var(--rec-surface);
+  border-color: var(--rec-border);
+}
+.recording-platform button:focus-visible,
+.recording-platform a:focus-visible {
+  outline: 2px solid #8b7cff;
+  outline-offset: 3px;
+}
+.recording-platform main {
+  scrollbar-gutter: stable;
+}
+.recording-platform table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.recording-platform tbody tr {
+  transition: background-color 0.16s ease;
+}
+.rec-header {
+  min-height: 72px;
+  padding: 12px clamp(16px, 4vw, 48px);
+  border-bottom: 1px solid var(--rec-border);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(18px);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.rec-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--rec-text);
+  text-decoration: none;
+  min-width: 210px;
+}
+.rec-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  color: #25203f;
+  background: linear-gradient(135deg, #ffd84c, #f0b91d);
+  box-shadow: 0 8px 22px rgba(240, 185, 29, 0.24);
+}
+.rec-brand b,
+.rec-brand small {
+  display: block;
+}
+.rec-brand b {
+  font-size: 0.95rem;
+}
+.rec-brand small {
+  color: var(--rec-text-muted);
+  font-size: 0.68rem;
+  margin-top: 2px;
+}
+.rec-waveform {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  opacity: 0.7;
+}
+.rec-nav {
+  display: flex;
+  gap: 5px;
+  margin-inline: auto;
+}
+.rec-nav a {
+  color: var(--rec-text-muted);
+  padding: 9px 12px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-size: 0.78rem;
+}
+.rec-nav a:hover,
+.rec-nav a:first-child {
+  color: var(--rec-text);
+  background: rgba(124, 106, 247, 0.12);
+}
+.rec-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--rec-text-muted);
+  font-size: 0.78rem;
+}
+.rec-user button {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--rec-border);
+  background: transparent;
+  color: var(--rec-text-muted);
+  border-radius: 9px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+.rec-user button:hover {
+  color: #fff;
+  border-color: var(--rec-primary);
+}
+.rec-main {
+  max-width: 1180px;
+  margin: auto;
+  padding: clamp(22px, 4vw, 52px) clamp(16px, 4vw, 42px);
+}
+.rec-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: clamp(24px, 5vw, 52px);
+  border: 1px solid rgba(124, 106, 247, 0.25);
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(79, 163, 247, 0.16),
+      transparent 34%
+    ),
+    linear-gradient(135deg, rgba(124, 106, 247, 0.16), rgba(17, 20, 31, 0.75));
+}
+.rec-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #a99dff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.rec-hero h1 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  margin: 15px 0 10px;
+  letter-spacing: -0.03em;
+}
+.rec-hero p {
+  margin: 0;
+  color: var(--rec-text-muted);
+  max-width: 560px;
+  line-height: 1.9;
+}
+.rec-hero-art {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  color: #a99dff;
+  min-width: 220px;
+}
+.rec-hero-art span {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--rec-text-muted);
+}
+.rec-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.rec-stat {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 10px;
+  padding: 20px;
+  border: 1px solid var(--rec-border);
+  border-radius: 17px;
+  background: var(--rec-surface);
+}
+.rec-stat svg {
+  grid-row: span 2;
+  margin-top: 2px;
+}
+.rec-stat span {
+  color: var(--rec-text-muted);
+  font-size: 0.78rem;
+}
+.rec-stat strong {
+  font-size: 1.65rem;
+}
+.rec-stat small {
+  grid-column: 1/-1;
+  color: #69738e;
+  font-size: 0.65rem;
+  margin-top: 5px;
+}
+.rec-stat.blue svg {
+  color: #4fa3f7;
+}
+.rec-stat.violet svg {
+  color: #9a8cff;
+}
+.rec-stat.green svg {
+  color: #53d17a;
+}
+.rec-work-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+.rec-panel {
+  border: 1px solid var(--rec-border);
+  border-radius: 17px;
+  background: var(--rec-surface);
+  padding: 22px;
+}
+.rec-panel-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.rec-panel-title span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+.rec-panel-title small {
+  color: var(--rec-text-muted);
+  font-size: 0.7rem;
+}
+.rec-actions {
+  display: grid;
+  gap: 10px;
+}
+.rec-actions a {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2px 10px;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid var(--rec-border);
+  border-radius: 13px;
+  color: var(--rec-text);
+  text-decoration: none;
+}
+.rec-actions a:hover {
+  border-color: var(--rec-primary);
+  background: rgba(124, 106, 247, 0.08);
+}
+.rec-actions a svg:first-child {
+  grid-row: span 2;
+  color: var(--rec-secondary);
+}
+.rec-actions a small {
+  grid-column: 2;
+  color: var(--rec-text-muted);
+  font-size: 0.7rem;
+}
+.rec-actions a svg:last-child {
+  grid-column: 3;
+  grid-row: span 2;
+  color: var(--rec-text-muted);
+}
+.rec-pipeline ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.rec-pipeline li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 0;
+  color: var(--rec-text-muted);
+  font-size: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.rec-pipeline li:last-child {
+  border-bottom: 0;
+}
+.rec-pipeline li i {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  font-style: normal;
+  font-size: 0.7rem;
+}
+.rec-pipeline li.active {
+  color: var(--rec-text);
+}
+.rec-pipeline li.active i {
+  background: var(--rec-primary);
+  color: #fff;
+}
+.rec-pipeline li em {
+  margin-inline-start: auto;
+  color: #a99dff;
+  font-style: normal;
+  font-size: 0.65rem;
+}
+@media (max-width: 760px) {
+  .rec-header {
+    flex-wrap: wrap;
+  }
+  .rec-waveform,
+  .rec-nav {
+    display: none;
+  }
+  .rec-user {
+    margin-inline-start: auto;
+  }
+  .rec-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .rec-hero-art {
+    align-self: center;
+  }
+  .rec-stat-grid,
+  .rec-work-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.rec-stage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.rec-stage-badge.raw {
+  background: rgba(79, 163, 247, 0.15);
+  color: #4fa3f7;
+}
+.rec-stage-badge.mastering {
+  background: rgba(124, 106, 247, 0.15);
+  color: #7c6af7;
+}
+.rec-stage-badge.final {
+  background: rgba(63, 185, 80, 0.15);
+  color: #3fb950;
+}
+.waveform-bar {
+  width: 3px;
+  border-radius: 3px;
+  background: var(--rec-wave);
+  animation: wave 1.2s ease-in-out infinite;
+}
+@keyframes wave {
+  0%,
+  100% {
+    height: 6px;
+  }
+  50% {
+    height: 20px;
+  }
+}
+
+.recording-platform .bg-slate-950 {
+  background-color: #090d16;
+}
+.recording-platform .bg-slate-900 {
+  background-color: #11172a;
+}
+.recording-platform .border-slate-800 {
+  border-color: #273052;
+}
+.recording-platform .text-amber-400 {
+  color: #ffd34e;
+}
+.recording-platform .bg-amber-500 {
+  background-color: #f7c62f;
+}
+.recording-platform .hover\:bg-amber-400:hover {
+  background-color: #ffd85c;
+}
+.recording-platform .selection\:bg-amber-500::selection {
+  background: #f7c62f;
+  color: #19152f;
+}
+.recording-platform .shadow-amber-500\/20 {
+  --tw-shadow-color: rgba(247, 198, 47, 0.2);
+}

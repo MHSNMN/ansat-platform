@@ -1,0 +1,6 @@
+{
+  "name": "منصة إنصات المركزية للإنتاج الصوتي",
+  "description": "Ensat Central Hub & Audio Platform - منصة إنصات لإدارة وتطوير وتسجيل وبث وتدقيق الكتب الصوتية",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

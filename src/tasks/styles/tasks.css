@@ -1,0 +1,96 @@
+/* src/tasks/styles/tasks.css */
+/* هوية تشغيلية: ألوان محايدة وعملية */
+@import "../../shared/styles/shared.css";
+.tasks-platform {
+  --tasks-primary: #58a6ff;
+  --tasks-bg: #0d1117;
+  --tasks-surface: #161b22;
+  --tasks-surface-2: #1e2530;
+  --tasks-border: #30363d;
+}
+.tasks-platform {
+  background:
+    radial-gradient(
+      circle at 85% 0%,
+      rgba(56, 189, 248, 0.1),
+      transparent 30rem
+    ),
+    radial-gradient(
+      circle at 10% 25%,
+      rgba(245, 158, 11, 0.07),
+      transparent 26rem
+    ),
+    var(--tasks-bg);
+  min-height: 100vh;
+}
+.tasks-platform header {
+  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.22);
+}
+.tasks-platform main > section {
+  scroll-margin-top: 92px;
+}
+.tasks-platform button:focus-visible,
+.tasks-platform a:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+}
+.tasks-platform input,
+.tasks-platform select,
+.tasks-platform textarea {
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+.tasks-platform input:focus,
+.tasks-platform select:focus,
+.tasks-platform textarea:focus {
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+}
+.kanban-column {
+  background: var(--tasks-surface);
+  border: 1px solid var(--tasks-border);
+  border-radius: 12px;
+  min-width: 260px;
+  max-width: 300px;
+}
+.task-card {
+  background: var(--tasks-surface-2);
+  border: 1px solid var(--tasks-border);
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+.status-TODO {
+  border-left: 3px solid #8b949e;
+}
+.status-IN_PROGRESS {
+  border-left: 3px solid #58a6ff;
+}
+.status-BLOCKED {
+  border-left: 3px solid #f85149;
+}
+.status-IN_REVIEW {
+  border-left: 3px solid #d29922;
+}
+.status-COMPLETED {
+  border-left: 3px solid #3fb950;
+}
+.status-CANCELLED {
+  border-left: 3px solid #6e7681;
+}
+.status-ARCHIVED {
+  border-left: 3px solid #484f58;
+}
+@media (max-width: 767px) {
+  .tasks-platform main {
+    overflow-x: clip;
+  }
+}

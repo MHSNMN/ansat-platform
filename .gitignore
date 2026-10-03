@@ -1,0 +1,18 @@
+node_modules/
+.npm-cache/
+coverage/
+dist/
+server-dist/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Security & Configs
+.env
+drive-config.json
+service-account*.json
+
+# Storage
+uploads/
+*.txt

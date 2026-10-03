@@ -1,0 +1,133 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function userPath() { return /databases/$(database)/documents/users/$(request.auth.uid); }
+    function profile() { return get(userPath()).data; }
+    function role() { return profile().get('role_id', profile().get('canonicalRole', profile().get('role', 'MEMBER'))); }
+    function status() { return profile().get('status', profile().get('accountStatus', 'pending')); }
+    // Firebase ID-token claims may remain valid briefly after a role change.
+    // Read the persisted profile for every sensitive client-side rule decision.
+    function active() { return signedIn() && exists(userPath()) &&
+      !(status() in ['disabled', 'suspended', 'pending', 'review', 'DISABLED', 'SUSPENDED', 'PENDING', 'REVIEW']) &&
+      !(role() in ['PENDING', 'SUSPENDED', 'pending', 'suspended']); }
+    function superAdmin() { return active() && (profile().get('is_super_admin', false) == true || role() == 'SUPER_ADMIN'); }
+    function admin() { return active() && (superAdmin() || role() == 'ADMIN'); }
+    function owner(uid) { return active() && request.auth.uid == uid; }
+
+    // Users Collection: Private PII is protected. Only document owner or Admins can read.
+    match /users/{uid} {
+      allow read: if owner(uid) || admin();
+      allow create, delete: if false;
+      allow update: if owner(uid) && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+        'name', 'avatar_color', 'department', 'publicProfileConsent',
+        'termsAcceptedVersion', 'termsAcceptedAt', 'updatedAt'
+      ]);
+
+      // Dedicated Private Security Subcollection: Stores passwordHash, pinHash, and auth credentials.
+      // Strictly forbidden from client-side direct reads and writes.
+      // Accessible ONLY via server-side Firebase Admin SDK.
+      match /private_security/{docId} {
+        allow read, write: if false;
+      }
+    }
+
+    match /usernames/{id} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /books/{id} {
+      allow read: if active();
+      allow write: if false; // All mutations go through authorized server endpoints.
+    }
+
+    match /audio_recordings/{id} {
+      allow read: if active() && (
+        admin() ||
+        resource.data.ownerId == request.auth.uid ||
+        resource.data.userId == request.auth.uid ||
+        resource.data.narratorId == request.auth.uid ||
+        role() in ['AUDIO_ENGINEER', 'QA_REVIEWER', 'OPERATIONS_MANAGER', 'CONTENT_MANAGER']
+      );
+      allow write: if false; // Handled by server API
+    }
+
+    match /tasks/{id} {
+      allow read: if active() && (
+        admin() ||
+        role() == 'OPERATIONS_MANAGER' ||
+        resource.data.createdBy == request.auth.uid ||
+        (resource.data.assigneeUids != null && request.auth.uid in resource.data.assigneeUids)
+      );
+      allow write: if false; // Handled by server API
+    }
+
+    match /activity_logs/{id} {
+      allow read: if admin();
+      allow create, update, delete: if false;
+    }
+
+    match /audit_logs/{id} {
+      allow read: if admin();
+      allow write: if false;
+    }
+
+    match /migration_audits/{id} {
+      allow read: if admin();
+      allow write: if false;
+    }
+
+    match /volunteer_applications/{id} {
+      allow read: if admin();
+      allow write: if false;
+    }
+
+    match /public_content/{id} {
+      allow read: if id == 'site' || admin();
+      allow write: if false; // Managed via CMS server API
+    }
+
+    match /public_library/{id} {
+      allow read: if resource.data.published == true || admin();
+      allow write: if false;
+    }
+
+    match /public_activities/{id} {
+      allow read: if resource.data.published == true || admin();
+      allow write: if false;
+    }
+
+    match /certificates/{id} {
+      allow read: if resource.data.publiclyVerifiable == true || admin();
+      allow write: if false;
+    }
+
+    match /reward_balances/{uid} {
+      allow read: if owner(uid) || admin();
+      allow write: if false;
+    }
+
+    match /reward_ledger/{id} {
+      allow read: if admin() || (active() && resource.data.uid == request.auth.uid);
+      allow write: if false;
+    }
+
+    match /reward_transactions/{id} {
+      allow read: if admin() || (active() && resource.data.userId == request.auth.uid);
+      allow write: if false;
+    }
+
+    match /jewel_gifts/{id} {
+      allow read: if active();
+      allow write: if false;
+    }
+
+    match /reward_gem_windows/{uid} { allow read, write: if false; }
+    match /reward_operations/{id} { allow read, write: if false; }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
