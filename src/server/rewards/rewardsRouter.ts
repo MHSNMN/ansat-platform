@@ -12,6 +12,7 @@
  */
 import { Router } from "express";
 import { randomUUID } from "crypto";
+import type { DocumentData } from "firebase-admin/firestore";
 import { requireRbacAction } from "../authMiddleware";
 import {
   canGiftGems,
@@ -53,7 +54,7 @@ export function invalidateRewardsMembersCache() {
 }
 
 function publicMemberName(
-  data: FirebaseFirestore.DocumentData | undefined,
+  data: DocumentData | undefined,
   fallback = "عضو إنصات",
 ) {
   const value = data || {};
