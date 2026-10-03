@@ -159,7 +159,7 @@ No production credentials, private keys, access tokens, refresh tokens, or membe
 
 ### Requirements
 
-- Node.js 20 or newer
+- Node.js 22 or newer
 - npm
 - Firebase project
 - Supabase project
