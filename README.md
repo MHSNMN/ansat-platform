@@ -217,8 +217,14 @@ VITE_SUPABASE_ANON_KEY=
 
 ## Verification
 
-The repository currently passes 171 automated tests across 27 test files, along
-with type checking, linting, formatting, and the production build.
+On 15 October 2026, source revision
+[`f7c3fcc`](https://github.com/MHSNMN/ansat-platform/commit/f7c3fcc00ff9e0861e5ed5d4708e8f582d51915d)
+passed 171 automated tests across 27 test files, type checking, linting, source
+formatting checks, and the production build using the installed local dependencies. This is a dated check,
+not a guarantee about later revisions or production security. See the
+[verification snapshot](docs/VERIFICATION_2026-10-15.md) for scope and limitations,
+and [CI runs](https://github.com/MHSNMN/ansat-platform/actions/workflows/ci.yml)
+for subsequent results.
 
 ```bash
 npm run typecheck
